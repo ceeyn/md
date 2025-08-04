@@ -1,0 +1,3 @@
+感兴趣的key：是一个列表
+
+当前有一个key1：meetingId，请你编写go代码，从一个大约7亿行的文件中【每一行是一个id】读取每一行，每次读取10000个提交到redis pipeLine执行，存储到redis中,key是key1拼接上每行的id，val是redis自增的64位整数，同时将key1+id和相应的自增值，存储到iceberg中，如果有失败，记录行号和id

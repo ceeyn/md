@@ -1,0 +1,2 @@
+image: # 镜像相关
+  base: "csighub.tencentyun.com/wemeet/tlinux_mini3.2_wemeet_base:latest"

@@ -1,0 +1,422 @@
+global:                             #全局配置
+  namespace: ${namespace}            #环境类型，分正式production和非正式development两种类型
+  env_name: ${env}                    #海外正式环境
+
+server:                                            #服务端配置
+  app: wemeet                                        #业务的应用名
+  server: meeting_template                             #进程服务名
+  bin_path: /usr/local/trpc/bin/                   #二进制可执行文件和框架配置文件所在路径
+  conf_path: /usr/local/trpc/conf/                 #业务配置文件所在路径
+  data_path: /usr/local/trpc/data/                 #业务数据文件所在路径
+  filter:                                          #针对所有service处理函数前后的拦截器列表
+    - recovery                                     #拦截框架创建的业务处理协程panic
+    - opentelemetry
+    - logger                                       #会议业务插件，强制必须引入，如果过滤器 logger 有冲突，引入v0.1.10以上的sdk，这里配置为 wemeetlogger
+    - cm
+  admin:
+    nic: eth1                           #ip  local_ip  trpc_admin_ip 都可以
+    port: 11014                             #
+    read_timeout: 3000                      #ms. 请求被接受到请求信息被完全读取的超时时间设置，防止慢客户端
+    write_timeout: 60000                    #ms. 处理的超时时间
+    enable_tls: false                       #是否启用tls，目前不支持
+  service:                                         #业务服务提供的service，可以有多个
+    - name: trpc.wemeet.wemeet_template.oidb      #service的路由名称
+      #ip: 127.0.0.1                            #服务监听ip地址 可使用占位符,ip和nic二选一，优先ip
+      nic: eth1
+      port: 9000                #服务监听端口 可使用占位符
+      network: udp                             #网络监听类型  tcp udp
+      protocol: oidb              #应用层协议 trpc http
+      timeout: 5000                            #请求最长处理时间 单位 毫秒
+    - name: trpc.wemeet.wemeet_template.http      #service的路由名称
+      #ip: 127.0.0.1                            #服务监听ip地址 可使用占位符,ip和nic二选一，优先ip
+      nic: eth1
+      port: 9001                #服务监听端口 可使用占位符
+      network: tcp                             #网络监听类型  tcp udp
+      protocol: http              #应用层协议 trpc http
+      timeout: 3000                            #请求最长处理时间 单位 毫秒
+    - name: trpc.wemeet.wemeet_template.tdmq_consumer #北极星注册
+      address: wemeet_template_tdmq_consumer   # for用于定位plugins/mq/tdmq/servers下的配置项
+      protocol: tdmq #应用层协议 trpc http
+      timeout: 2500
+    - name: trpc.kafka.webinar_template.service      #service的路由名称
+      address: ${cicd_kafka_vip}:9092?topics=lAXXSJsEr8KPmFIp${topic_env}&group=consumer_template_test${group_env}&trpcMeta=true&bizId=wjnTt16oeTRqt1t0&maxRetry=3&strategy=range
+      protocol: kafka               #应用层协议 trpc http
+      timeout: 2000
+
+client:                                            #客户端调用的后端配置
+  timeout: 1000                                    #针对所有后端的请求最长处理时间
+  namespace: ${namespace}                            #针对所有后端的环境
+  filter:                                          #针对所有后端调用函数前后的拦截器列表
+    - opentelemetry
+    - logger
+    - cm
+    - degrade
+  service:                                         #针对单个后端的配置
+    - name: trpc.wemeet.db_proxy.mysql_readonly
+      timeout: 2000
+      target: dsn://${cicd_mysql_user_readonly}:${cicd_mysql_pwd_readonly_skm}@tcp(${cicd_mysql_vip_readonly}:${cicd_mysql_port_readonly})/wemeet_info?timeout=10s&charset=utf8&parseTime=true
+    - name: trpc.kafka.producer.db_proxy
+      target: kafka://${cicd_kafka_vip}:9092?topic=trpc_db_proxy_centerJoinNew_test${topic_env}&clientid=wemeet_template&partitioner=hash&compression=none&trpcMeta=true
+      timeout: 2000
+    - name: trpc.wemeet.wemeet_template.oidb      #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc               #应用层协议 trpc http
+      target: ip://127.0.0.1:9000              #请求服务地址
+      timeout: 1000                            #请求最长处理时间
+    - name: trpc.wemeet.wemeet_template.http      #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: http               #应用层协议 trpc http
+      target: ip://127.0.0.1:9001              #请求服务地址
+      timeout: 1000                            #请求最长处理时间
+    - name: trpc.wemeet.wemeet_template.redis_storage      #后端服务的service name
+      namespace: Production                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: redis
+      target: ${cicd_redis_vip_template_new}
+      password: ${cicd_redis_pwd_template}  # 密钥使用占位符
+      #target: polaris://rpl_global_crs-rpl-j563izt1
+      #password: Niu39jdfs2lksG  # 密钥使用占位符
+      timeout: 3000
+    - name: trpc.meet.wemeet_webinar.wemeet_webinar_redis      #后端服务的service name
+      network: tcp                               #后端服务的网络类型 tcp udp 配置优先
+      protocol: redis                            #应用层协议 trpc http
+      namespace: Production
+      target: ${cicd_redis_webinar_info}
+      password:  ${cicd_redis_psw_webinar_key} # 密钥使用占位符
+      #target: polaris://rpl_global_crs-rpl-b5bgckfj
+      #password: K34j0sj420w53
+      timeout: 3000
+    - name: trpc.wemeet.redis.meeting_other_info      #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: redis
+      target: ${target_meeting_other_info}
+      password: ${password_meeting_other_info}  # 密钥使用占位符
+      timeout: 3000
+    - name: trpc.wemeet.redis.meeting_other_info_oversea      #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: redis
+      target: ${target_meeting_other_info_oversea}
+      password: ${password_meeting_other_info_oversea}  # 密钥使用占位符
+      timeout: 3000
+    - name: trpc.wemeet.common_upload.common_upload_oidb      #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb
+      target: polaris://trpc.wemeet.common_upload.oidb
+      timeout: 1000
+      filter:
+        - interface_auth        #配置鉴权filter
+    - name: trpc.wemeet.wemeet_meet_sensitive.wemeet_meet_sensitive_oidb
+      namespace: ${namespace}                   #后端服务的环境
+      # namespace: Production
+      # target: polaris://1904193:3670016
+      target: cl5://1904193:3670016
+      # target: polaris://trpc.wemeet.meet_sensitive.oidb
+      network: udp
+      protocol: oidb
+      timeout: 3000
+    - name: trpc.wemeet.wemeet_user_notify.wemeet_user_notify_oidb   #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb
+      target: polaris://trpc.wemeet.wemeet_user_notify.oidb
+      timeout: 1000
+    - name: trpc.wemeet.common.message         #后端服务的service name
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: http                            #应用层协议 trpc http
+      target: polaris://trpc.wemeet.msgbox.http            #请求服务地址
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_safe_gateway.video_trpc    #后端服务的service name
+      namespace: ${namespace}                   #后端服务的环境
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc
+      target: polaris://trpc.wemeet.wemeet_safe_gateway.video_trpc
+      timeout: 2000
+    - name: trpc.wemeet.wemeet_cache_read.cache_trpc
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc                           #应用层协议 trpc http
+      target: polaris://trpc.wemeet.wemeet_cache_read.cache_trpc
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_cache_read.oversea_trpc
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc                           #应用层协议 trpc http
+      target: polaris://trpc.voov.wemeet_cache_read.cache_trpc
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_safe_gateway.text_oidb
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb                           #应用层协议 trpc http
+      target: polaris://trpc.wemeet.wemeet_safe_gateway.text_oidb #请求服务地址
+    - name: trpc.wemeet.wemeet_safe_gate.safe_trpc
+      network: udp                             #注意是udp
+      protocol: trpc
+      target: polaris://trpc.wemeet.wemeet_safe_gate.safe_trpc
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_safe_gateway.image_trpc     # 图片送审接口
+      network: udp                             #注意是udp
+      protocol: trpc
+      target: polaris://trpc.wemeet.wemeet_safe_gateway.safe_image_trpc
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_cache_manger.manger_oidb
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb                           #应用层协议 trpc http
+      target: polaris://trpc.wemeet.wemeet_cache_manger.manger_oidb
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_cache_manger.oversea_oidb
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb                           #应用层协议 trpc http
+      target: polaris://trpc.voov.wemeet_cache_manger.manger_oidb
+      timeout: 1000
+    - name: trpc.wemeet.common_upload.common_upload_trpc
+      network: tcp                          #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc                           #应用层协议 trpc http
+      target: polaris://trpc.wemeet.common_upload.trpc
+      timeout: 1000
+      filter:
+        - interface_auth        #配置鉴权filter
+    - name: client.http.material_system     #素材系统
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: http                      #应用层协议 trpc http
+      target: polaris://FrontEnd.ProPlatform
+      timeout: 3000
+    - name: trpc.tencent_meeting.common_service.role_auth_oidb
+      network: udp              #后端服务的网络类型 tcp udp 配置优先
+      protocol: oidb            #应用层协议 trpc http
+      target: polaris://trpc.wemeet.meeting_role_auth.oidb #请求服务地址
+      timeout: 2000
+    - name: trpc.wemeet.common_secret_key.common_secret_key_http  #加解密服务配置（使用云鼎AKSK托管无需配置）
+      target: polaris://trpc.wemeet.common_secret_key.http
+      network: tcp
+      protocol: http
+      timeout: 2000
+    - name: trpc.wemeet.layout_center.oidb_layout_center
+      network: udp
+      protocol: oidb
+      target: polaris://trpc.wemeet.layout_center.oidb
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_safe_gate_meet.meet_trpc #trpc.wemeet.wemeet_gate_meet.trpc
+      network: udp                             #注意是udp
+      protocol: trpc
+      target: polaris://trpc.wemeet.wemeet_gate_meet.trpc
+      timeout: 2000
+plugins:                                          #插件配置
+  circuit: #这个配置一定要填
+    degrade:
+  secret:
+    skm:
+      env: saas #环境，sass，pri，hybrid
+      service_id: 0056bc74-99ec-4b87-9916-f6a19d53e002 #管理平台上登记得到的服务ID（使用云鼎AKSK托管无需配置）
+      service_token: 5aaceff217ce441ebb6b092af94ecdfc    #管理平台上登记得到的服务密钥（使用云鼎AKSK托管无需配置）
+  config:
+    rainbow: # 七彩石配置中心
+      providers:
+        - name: rainbow     # provider名字，代码使用如：`config.WithProvider("rainbow")`
+          appid: 0b37f1be-6775-4b01-a651-47ff9f9a3221 # appid
+          group: test   # 配置所属组
+          file_cache: /tmp/a.backup
+          enable_client_provider: false
+          timeout: 2000
+        - name: degrade_rainbow  # 固定
+          appid: 6055bb58-2e43-4cb6-b28f-2a09c1ea56c4 # 业务方自己配置
+          group: disaster_tolerance # 业务方自己配置
+          enable_sign: true
+          user_id: 81857a4a7a914769975228fd27658062
+          user_key: 7819cc1b354a0dfa3efa08fa54ca04844e7d
+          env_name: ${dt_env} # 业务方自己配置
+        - name: skm_rainbow # 加解密七彩石，用于故障降级，注意sdk版本更新为在v0.1.25以上
+          appid: bbf82513-5c25-4a2a-a501-39eece9c49f2
+          group: backup
+          type: kv
+          env_name: CICD #cicd环境为CICD，生产环境为Prod
+          enable_sign: true
+          user_id: 5e2a3794684849849b511dd751d293fc
+          user_key: e9a66ee0c1beab0da3b38e72932e02ebd4c0
+        - name: interface_auth                  # 放在七彩石的鉴权配置，name可以自行命名，建议使用interface_auth
+          appid: 0b37f1be-6775-4b01-a651-47ff9f9a3221
+          group: test
+          type: kv
+          env_name: Default
+          enable_sign: true
+          user_id: 0d86fdf71c554d21be615acd43901b96
+          user_key: c8400ef621646f63b0b3f0546c64804ef20b
+  selector:
+    polaris:
+      address_list: polaris-discover.oa.com:8090  #名字服务远程地址列表
+      protocol: grpc                              #北极星交互协议支持 http，grpc，trpc
+      log_dir: ./log/polaris/                    #北极星日志目录
+      enable_servicerouter: true
+      enable_trans_meta: true
+  metrics:
+    cm:
+      app: wemeet
+      service:  wemeet_template                 # 注意！！ 需修改，模块服务名 !!!
+      agentIP: 127.0.0.1:8126                     # 固定值，sidecar注入（云监控agent端口为8126，注意和服务端口冲突）
+      singleAttrMergeReport: false                 #是否单指标聚合，提前配置好，后续企业上报监控时需要使用此配置，当前cm版本>=1.20.0时一定要设置为true
+    m007: #007 monitor
+      reportInterval: 60000 #上报间隔[可选，默认为60000]
+      namespace: Production #环境类型，分正式production和非正式development两种类型。[可选,未配置则与global.namespace一致]
+    attr:                                            # monitor
+      reportInterval: 1000
+      reportMeta:
+        ulsAppIdIsZero: 2804733                      # appid为0，不使用uls
+        ulsAgentNotInstall: 2804734                  # uls没有安装logsys_cfg_cli
+        ulsInitFailed: 2804735                       # uls初始化失败
+        ulsLogTruncate: 3082648                      # uls超长截断
+        ulsReport: 2804737                           # uls上报量
+        ulsQueueFull: 2804738                        # uls队列已满
+        # 以下为trpc runtime指标监控
+        trpc.GoroutineNum: 35434813
+        trpc.ThreadNum: 35434814
+        trpc.GOMAXPROCSNum: 35434815
+        trpc.CPUCoreNum: 35434816
+        trpc.PauseNsLt100usTimes: 35434817
+        trpc.PauseNs100_500usTimes: 35434818
+        trpc.PauseNs500us_1msTimes: 35434819
+        trpc.PauseNs1_10msTimes: 35434820
+        trpc.PauseNs10_50msTimes: 35434821
+        trpc.PauseNs50_100msTimes: 35434822
+        trpc.PauseNs100_500msTimes: 35434823
+        trpc.PauseNs500ms_1sTimes: 35434824
+        trpc.PauseNsBt1sTimes: 35434825
+        trpc.AllocMem_MB: 35434826
+        trpc.SysMem_MB: 35434827
+        trpc.NextGCMem_MB: 35434828
+        trpc.PauseNs_us: 35434829
+        trpc.GCCPUFraction_ppb: 35434830
+        trpc.MaxFdNum: 35434831
+        trpc.CurrentFdNum: 35434832
+        trpc.PidNum: 35434833
+        trpc.TcpNum: 35434834
+        trpc.PanicNum: 35443938
+  log:                                            #日志配置
+    default:                                      #默认日志的配置，可支持多输出
+      - writer: console                           #控制台标准输出 默认
+        level: error                              #标准输出日志的级别
+        formatter: json
+        caller_skip: 2                            #默认日志深度是2，不填写是2，使用git.code.oa.com/phoenixs/trpc-log-meet/log，接口打印日志，启用该 log 调整为3
+        formatter_config:
+          time_key: Timestamp                     #日志时间字段名称，不填默认"T"
+          level_key: Level                        #日志级别字段名称，不填默认"L"
+          name_key: Name                          #日志名称字段名称， 不填默认"N"
+          caller_key: Line                        #日志调用方字段名称， 不填默认"C"
+          message_key: Message                    #日志消息体字段名称，不填默认"M"
+          stacktrace_key: StackTrace              #日志堆栈字段名称， 不填默认"S"
+      - writer: file                              #本地文件日志
+        level: debug                               #本地文件滚动日志的级别
+        formatter: json
+        caller_skip: 2                            #默认日志深度是2，不填写是2，使用git.code.oa.com/phoenixs/trpc-log-meet/log，接口打印日志，启用该 log 调整为3
+        formatter_config:
+          time_key: Timestamp                     #日志时间字段名称，不填默认"T"
+          level_key: Level                        #日志级别字段名称，不填默认"L"
+          name_key: Name                          #日志名称字段名称， 不填默认"N"
+          caller_key: Line                        #日志调用方字段名称， 不填默认"C"
+          message_key: Message                    #日志消息体字段名称，不填默认"M"
+          stacktrace_key: StackTrace              #日志堆栈字段名称， 不填默认"S"
+        writer_config:
+          filename:  ./logs/trpc.log                #本地文件滚动日志存放的路径，注意此处日志文件路径是 logs，不是 log!!!!!
+          roll_type: size                           #文件滚动类型,size为按大小滚动
+          max_age: 7                                #最大日志保留天数
+          max_size: 10                              #本地文件滚动日志的大小 单位 MB
+          max_backups: 10                           #最大日志文件数
+          compress:  false                          #日志文件是否压缩
+      - writer: atta               #atta远程日志输出
+        level: info               #远程日志的级别
+        remote_config:             #远程日志配置，业务自定义结构，每一种远程日志都有自己独立的配置
+          atta_id: '03200050411'     #atta id 使用之前需要保证机器有安装atta agent
+          atta_token: '2311826956'  #atta token
+          time_key: time
+          level_key: level
+          name_key: name
+          caller_key: caller
+          stacktrace_key: stacktrace
+          message_key: msg
+          field:                   #申请atta id时，业务自己定义的表结构字段，顺序必须一致
+            - traceId
+            - serverName
+            - serverRPCName
+            - time
+            - cost
+            - level
+            - stacktrace
+            - caller
+            - msg
+            - seq
+            - appId
+            - appUid
+            - meetId
+  tracing:
+    tjg:
+      appid: TXHY_DEV
+      service_name: trpc.wemeet.meeting_template
+      local_port: 0
+      sampler:
+        type: mix
+        mix:
+          sample_rate: 1024
+          min_speed_rate: 1
+          max_speed_rate: 10
+      reporter:
+        type: atta
+        atta:
+          atta_id: '0af00000141'
+          atta_token: '7913895459'
+          log_atta_id: '0c000006190'
+          log_atta_token: '9155347633'
+  logger:
+    wemeet:
+      debug: true
+      request:
+        - name: all  #默认配置
+          switch: true  #默认为 true，表示打印所有的请求参数。
+        - name: trpc.wemeet.cls_test_source.ClsTestSourceOidb #此处为自己想过滤的不打印请求参数的服务，服务为自己本身的服务。此物为业务自身调用的服务，此物为业务自身调用的服务，此物为业务自身调用的服务
+          switch: false  #false，表示此类请求不打印请求参数
+      response:
+        - name: all
+          switch: true #默认为 true，表示打印所有接口的的返回参数。
+        - name: trpc.wemeet.cls_test_source.ClsTestSourceHttp  #此处为自己想过滤的不打印返回数据的服务，服务为自己本身的服务。此物为业务自身调用的服务，此物为业务自身调用的服务，此物为业务自身调用的服务
+          switch: false  #配置为 false，表示该服务不打印返回参数。
+      rpc:
+        request:
+          - name: all
+            switch: true #默认为 true，表示打印RPC 调用的请求以及返回信息
+          - name: trpc.wemeet.cls_test_one.ClsTestOneOidb  #此处为调用的 RPC 服务，配置名称与 Client 处的 service：name 的配置保持一致，支持配置 redis 以及 MySQL 的配置。此物为业务自身调用的服务，此物为业务自身调用的服务，此物为业务自身调用的服务
+            switch: false
+        response:
+          - name: all
+            switch: true
+  telemetry:
+    opentelemetry:
+      tenant_id: 2653#sdk-e8aeg4f1bfg8afg5#7739_53928___apm  # token
+      addr: 127.0.0.1:4317  # 集群地址
+      metrics:
+        enabled: false
+      sampler:
+        fraction: 0                    # 万分之一采样（每10000请求上报一次trace数据）
+      logs:
+        enabled: false # 远程日志开关，默认关闭
+        level: "error" # 日志级别，默认error
+        enable_sampler: false # 是否启用采样器, 启用后只有当前请求命中采样时才会上报独立日志（需要平台支持染色采样接口，部分平台可能不支持请咨询平台方）
+        trace_log_mode: "disable" # verbose:以DEBUG级别打印flow log包括接口名、请求、响应、耗时, disable:不打印, 默认不打印
+        disable_recovery: false # log filter默认会recovery panic并打印日志上报指标
+      traces:
+        disable_trace_body: true # trace对req和rsp的上报开关, true:关闭上报以提升性能, false:上报, 默认上报
+        enable_deferred_sample: false # 是否开启延迟采样 在span结束后的导出采样, 额外上报出错的/高耗时的. 默认: disable
+        deferred_sample_error: true # 采样出错的
+        deferred_sample_slow_duration: 2000ms # 采样耗时大于指定值的
+        disable_parent_sampling: false  # 默认 false, 开启后将不使用上游的采样结果
+  mq:
+    tdmq:
+      servers: # 消费者 https://git.woa.com/trpc-go/trpc-database/tree/master/tdmq
+        - name: wemeet_template_tdmq_consumer
+          url: ${cicd_tdmq_url} # 这里填控制台 集群管理-集群概览下的接入地址（自研上云就填VPC地址）
+          connection_timeout: 1s
+          topic: persistent://${cicd_tdmq_cluster}/${cicd_tdmq_namespace}/wemeet_template_test_${env}
+          consumer_name: wemeet_template_consumer # 非必填
+          subscription_name: wemeet_template_group
+          subscription_type: shared
+          initial_position: latest # earlist、latest，默认latest
+          auth_name: token
+          auth_params: "{ \"token\": \"${cicd_tdmq_token}\" }"

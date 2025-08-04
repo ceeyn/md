@@ -1,0 +1,10 @@
+#七彩石的业务配置统一在此处
+appId: dw
+sdkId: css-${env}
+secretId: dw
+topic: name-${env}
+
+# TDMQ配置
+TdmqClusterUrl      : http://meeting.tdmq-exclusive.ap-gz.tencentyun.com:8080
+TdmqRoleToken       : eyJrZXlJZCI6InB1bHNhci14b3h6YTNxbmFucTIiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWxzYXIteG94emEzcW5hbnEyX3dlbWVldF90ZW1wbGF0ZV9wcm9kIn0.Gmz-TziT8V9X0LNtvG1bvgnYi--ERxXAejulT1HO5Z4
+TdmqTopic           : persistent://pulsar-xoxza3qnanq2/wemeet_template/wemeet_template_topic_${env}

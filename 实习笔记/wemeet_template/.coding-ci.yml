@@ -1,0 +1,78 @@
+version: '2.0'
+env:
+  ENV:
+    value: cicd
+    type: select
+    require: true
+    option: dev;prod;oversea_prod;test;pre;pri;oversea_test;cicd;set
+  ENABLE_EVN_ZHIYUN:
+    value: 'False'
+    type: select
+    option: False;True
+  REGISTRY_PASSWD:
+    type: string
+    readonly: true
+    secret: >-
+      pK2hjzvGyJ5wVFWsIQqKq+Sk1yTRgebzzW8raatDbJcDNiiSIfb4gnx4Q2wxc4ROVSWVKGwXrkouLLTfrkH+6WEwwFwgmmOS4ADNVYg5wlrT/cj0OsWKrmv/hTrMHcpYxAxnq8/DtNe8y+r1tHTdb6uUDzq9ZCMt+mpgh0tVrnA=
+stages:
+  - stage: 准备阶段
+    tasks:
+      - task: 环境准备
+        cmds:
+          - plugin: cmds
+            params:
+              cmds:
+                - >-
+                  echo 'build application env: '$ENV;
+  - stage: 编译阶段
+    tasks:
+      - cmds:
+          - plugin: cmds
+            params:
+              cmds:
+                - >-
+                  mkdir ${QCI_WORKSPACE}/release;
+                  git config --global url.git@git.code.oa.com:.insteadOf https://git.code.oa.com/;
+                  chmod 777 build.sh;
+                  ./build.sh;
+                  if [[ $? != 0 ]]; then
+                      exit 1;
+                  fi;
+        task: 编译代码
+
+  - stage: 构建阶段
+    tasks:
+      - task: 镜像构建
+        cmds:
+          - plugin: cmds
+            params:
+              cmds:
+                - >-
+                  img_name=${BUILD_IMAGE}-${ENV};
+                  echo 'Image Name is:' $img_name;
+                  pack_time=`date +%Y_%m_%d_%H_%M_%S`;
+                  if [[ "$QCI_REPO_TAG"x != "None"x && "$QCI_REPO_TAG"x != ""x ]]; then
+                    TAG='v'${QCI_BUILD_NUMBER}'_'${QCI_REPO_TAG//\//_}_$pack_time;
+                  else
+                    TAG='v'${QCI_BUILD_NUMBER}'_'${QCI_REPO_BRANCH//\//_}'_'${QCI_REPO_COMMIT:0:8}_$pack_time;
+                  fi;
+                  echo 'TAG is' ${TAG};
+                  echo 'TAG='$TAG >> $QCI_ENV_FILE;
+                  IMAGE_NAME='csighub.tencentyun.com/wemeet-public-cloud-'${ENV}'/'${img_name}:${TAG};
+                  echo 'IMAGE_NAME is' $IMAGE_NAME;
+                  IMAGE_LATEST='csighub.tencentyun.com/wemeet-public-cloud-'${ENV}'/'${img_name}:latest;
+                  echo 'IMAGE_LATEST is' $IMAGE_LATEST;
+                  docker login csighub.tencentyun.com -u lizryli -p $REGISTRY_PASSWD;
+                  docker build --build-arg BUILD_IMAGE=${BUILD_IMAGE} --build-arg ENV=${ENV} -f Dockerfile --network=host -t ${IMAGE_NAME} -t ${IMAGE_LATEST} .;
+                  if [[ $? != 0 ]]; then
+                    exit 1;
+                  fi;
+                  docker push $IMAGE_NAME;
+                  if [[ $? != 0 ]]; then
+                    exit 1;
+                  fi;
+                  docker push $IMAGE_LATEST;
+                  docker logout csighub.tencentyun.com;
+worker:
+  language: go-14
+  label: PUBLIC_TLINUX

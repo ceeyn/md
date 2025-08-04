@@ -1,0 +1,5 @@
+#七彩石的业务配置统一在此处
+appId: dw
+sdkId: css-${env}
+secretId: dw
+topic: name-${env}

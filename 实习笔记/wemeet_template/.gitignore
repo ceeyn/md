@@ -1,0 +1,7 @@
+wemeet_template
+meeting_template
+*.swp
+log/
+.idea*
+go.sum
+.DS_Store

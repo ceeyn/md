@@ -1,0 +1,8 @@
+version: '1.0'
+discovery:
+  polaris:
+  service:
+    - name: trpc.wemeet.meeting_template.wemeet_meeting_template_oidb      #后端服务北极星名称
+      token: 12345dawdaw
+      namespace: Test
+    

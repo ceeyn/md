@@ -1,0 +1,124 @@
+global:                             #全局配置
+  namespace: Development            #环境类型，分正式production和非正式development两种类型
+  env_name: pri                    #环境名称，非正式环境下多环境的名称
+
+server:                                            #服务端配置
+  app: wemeet                                        #业务的应用名
+  server: meeting_template                             #进程服务名
+  bin_path: /usr/local/trpc/bin/                   #二进制可执行文件和框架配置文件所在路径
+  conf_path: /usr/local/trpc/conf/                 #业务配置文件所在路径
+  data_path: /usr/local/trpc/data/                 #业务数据文件所在路径
+  filter:                                          #针对所有service处理函数前后的拦截器列表
+    - simpledebuglog
+    - recovery                                     #拦截框架创建的业务处理协程panic
+  service:                                         #业务服务提供的service，可以有多个
+    - name: trpc.wemeet.wemeet_template.oidb      #service的路由名称
+      #ip: 127.0.0.1                            #服务监听ip地址 可使用占位符,ip和nic二选一，优先ip
+      nic: eth1
+      port: 9000                #服务监听端口 可使用占位符
+      network: tcp                             #网络监听类型  tcp udp
+      protocol: trpc               #应用层协议 trpc http
+      timeout: 1000                            #请求最长处理时间 单位 毫秒
+    - name: trpc.wemeet.wemeet_template.http      #service的路由名称
+      ip: 127.0.0.1                            #服务监听ip地址 可使用占位符,ip和nic二选一，优先ip
+      #nic: eth0
+      port: 9001                #服务监听端口 可使用占位符
+      network: tcp                             #网络监听类型  tcp udp
+      protocol: http              #应用层协议 trpc http
+      timeout: 3000                            #请求最长处理时间 单位 毫秒
+    
+
+client:                                            #客户端调用的后端配置
+  timeout: 1000                                    #针对所有后端的请求最长处理时间
+  namespace: Development                           #针对所有后端的环境
+  filter:                                          #针对所有后端调用函数前后的拦截器列表
+  service:                                         #针对单个后端的配置
+    - name: trpc.wemeet.db_proxy.mysql_readonly
+      timeout: 2000
+      target: dsn://wemeet_info_full_rw:Kvm@8s39cmVd@tcp(30.46.165.144:3306)/wemeet_info?timeout=10s&charset=utf8&parseTime=true
+    - name: trpc.kafka.producer.db_proxy
+      target: kafka://${cicd_kafka_vip}:9092?topic=trpc_db_proxy_centerJoinNew_test_${env}&clientid=wemeet_template&partitioner=hash&compression=none
+      timeout: 2000
+    - name: trpc.wemeet.meeting_template.wemeet_meeting_template_oidb      #后端服务的service name
+      namespace: Development                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc               #应用层协议 trpc http
+      target: ip://127.0.0.1:8000              #请求服务地址
+      timeout: 1000                            #请求最长处理时间
+    - name: trpc.wemeet.meeting_template.wemeet_meeting_template_http      #后端服务的service name
+      namespace: Development                   #后端服务的环境
+      network: tcp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc               #应用层协议 trpc http
+      target: ip://127.0.0.1:8000              #请求服务地址
+      timeout: 1000                            #请求最长处理时间
+    - name: trpc.wemeet.wemeet_cache_read.cache_trpc
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc                           #应用层协议 trpc http
+      target: polaris://trpc.wemeet.wemeet_cache_read.cache_trpc
+      timeout: 1000
+    - name: trpc.wemeet.wemeet_cache_read.oversea_trpc
+      network: udp                             #后端服务的网络类型 tcp udp 配置优先
+      protocol: trpc                           #应用层协议 trpc http
+      target: polaris://trpc.voov.wemeet_cache_read.cache_trpc
+      timeout: 1000
+    - name: trpc.wemeet.layout_center.oidb_layout_center
+      network: udp
+      protocol: oidb
+      target: polaris://trpc.wemeet.layout_center.oidb
+      timeout: 1000
+
+plugins:                                          #插件配置
+  log:                                            #日志配置
+    default:                                      #默认日志的配置，可支持多输出
+      - writer: console                           #控制台标准输出 默认
+        level: error                              #标准输出日志的级别
+      - writer: file                              #本地文件日志
+        level: info                               #本地文件滚动日志的级别
+        writer_config:
+          filename: ./trpc.log                      #本地文件滚动日志存放的路径
+          max_size: 10                              #本地文件滚动日志的大小 单位 MB
+          max_backups: 10                           #最大日志文件数
+          max_age: 7                                #最大日志保留天数
+          compress:  false                          #日志文件是否压缩
+  metrics:
+    cm:
+      app: wemeet
+      service:  wemeet_template                 # 注意！！ 需修改，模块服务名 !!!
+      agentIP: 127.0.0.1:8126                     # 固定值，sidecar注入（云监控agent端口为8126，注意和服务端口冲突）
+      singleAttrMergeReport: false                 #是否单指标聚合，提前配置好，后续企业上报监控时需要使用此配置，当前cm版本>=1.20.0时一定要设置为true
+    m007: #007 monitor
+      reportInterval: 60000 #上报间隔[可选，默认为60000]
+      namespace: Production #环境类型，分正式production和非正式development两种类型。[可选,未配置则与global.namespace一致]
+    attr:                                            # monitor
+      reportInterval: 1000
+      reportMeta:
+        ulsAppIdIsZero: 2804733                      # appid为0，不使用uls
+        ulsAgentNotInstall: 2804734                  # uls没有安装logsys_cfg_cli
+        ulsInitFailed: 2804735                       # uls初始化失败
+        ulsLogTruncate: 3082648                      # uls超长截断
+        ulsReport: 2804737                           # uls上报量
+        ulsQueueFull: 2804738                        # uls队列已满
+        # 以下为trpc runtime指标监控
+        trpc.GoroutineNum: 35434813
+        trpc.ThreadNum: 35434814
+        trpc.GOMAXPROCSNum: 35434815
+        trpc.CPUCoreNum: 35434816
+        trpc.PauseNsLt100usTimes: 35434817
+        trpc.PauseNs100_500usTimes: 35434818
+        trpc.PauseNs500us_1msTimes: 35434819
+        trpc.PauseNs1_10msTimes: 35434820
+        trpc.PauseNs10_50msTimes: 35434821
+        trpc.PauseNs50_100msTimes: 35434822
+        trpc.PauseNs100_500msTimes: 35434823
+        trpc.PauseNs500ms_1sTimes: 35434824
+        trpc.PauseNsBt1sTimes: 35434825
+        trpc.AllocMem_MB: 35434826
+        trpc.SysMem_MB: 35434827
+        trpc.NextGCMem_MB: 35434828
+        trpc.PauseNs_us: 35434829
+        trpc.GCCPUFraction_ppb: 35434830
+        trpc.MaxFdNum: 35434831
+        trpc.CurrentFdNum: 35434832
+        trpc.PidNum: 35434833
+        trpc.TcpNum: 35434834
+        trpc.PanicNum: 35443938

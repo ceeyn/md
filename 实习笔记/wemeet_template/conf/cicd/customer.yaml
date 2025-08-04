@@ -1,0 +1,10 @@
+#七彩石的业务配置统一在此处
+appId: dw
+sdkId: css-${env}
+secretId: dw
+topic: name-${env}
+
+# TDMQ配置
+TdmqClusterUrl      : ${cicd_tdmq_url}
+TdmqRoleToken       : ${cicd_tdmq_token}
+TdmqTopic           : persistent://${cicd_tdmq_cluster}/${cicd_tdmq_namespace}/wemeet_template_test_${env}
