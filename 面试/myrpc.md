@@ -301,7 +301,7 @@ https://juejin.cn/post/7115642653718347783?searchId=20240921103108A81342B7754CA9
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240808100032952.png" alt="image-20240808100032952" style="zoom: 67%;" />
+<img src="../images/image-20240808100032952.png" alt="image-20240808100032952" style="zoom: 67%;" />
 
 JDK 自带的序列化机制，即 `java.io.Serializable`，主要设计目标是为了在 Java 应用程序之间进行对象的持久化和传输。它在跨语言调用方面存在局限性，原因如下：
 
@@ -1339,7 +1339,7 @@ Protostuff 是基于 `Schema` 的字段编号机制来进行序列化的。当�
 
 ## 1.一致性hash算法【服务节点添加和删除只需要改变很少，相同参数的方法总会分配给一个实例】
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240821193138516.png" alt="image-20240821193138516" style="zoom:50%;" />
+<img src="../images/image-20240821193138516.png" alt="image-20240821193138516" style="zoom:50%;" />
 
 ```
 你的问题涉及到一致性哈希算法中关于如何确保请求能够正确地映射到具体实例的问题。我们来详细解释这一过程以及为什么这种设计不会导致请求哈希不到具体实例的情况。
@@ -1555,11 +1555,11 @@ Protostuff 是基于 `Schema` 的字段编号机制来进行序列化的。当�
 
 1. **客户端初始化**：客户端通过`IdleStateHandler`检测写空闲时间，如果30秒内没有写操作，则发送心跳包。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240716110040832.png" alt="image-20240716110040832" style="zoom:50%;" />
+<img src="../images/image-20240716110040832.png" alt="image-20240716110040832" style="zoom:50%;" />
 
 1. **服务器初始化**：服务器通过`IdleStateHandler`检测读空闲时间，如果60秒内没有读操作，则认为连接可能断开
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240716105953466.png" alt="image-20240716105953466" style="zoom:50%;" />
+<img src="../images/image-20240716105953466.png" alt="image-20240716105953466" style="zoom:50%;" />
 
 
 
@@ -2430,7 +2430,7 @@ rpc:
 
 在代理时策略放入请求的消息头
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240713213312340.png" alt="image-20240713213312340" style="zoom:50%;" />
+<img src="../images/image-20240713213312340.png" alt="image-20240713213312340" style="zoom:50%;" />
 
 ### 服务端配置的策略放在provider的application.yml中
 
@@ -3001,7 +3001,7 @@ promise.addListener(future -> {
 
 ### 1. 同步调用（Sync）
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240712173315358.png" alt="image-20240712173315358" style="zoom:50%;" />
+<img src="../images/image-20240712173315358.png" alt="image-20240712173315358" style="zoom:50%;" />
 
 **概念**：
 
@@ -3019,7 +3019,7 @@ promise.addListener(future -> {
 
 ### 2. 异步调用（Future）
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240712173336887.png" alt="image-20240712173336887" style="zoom:50%;" />
+<img src="../images/image-20240712173336887.png" alt="image-20240712173336887" style="zoom:50%;" />
 
 **概念**：
 
@@ -3037,7 +3037,7 @@ promise.addListener(future -> {
 
 ### 3. 回调调用（Callback）
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240712173351039.png" alt="image-20240712173351039" style="zoom:50%;" />
+<img src="../images/image-20240712173351039.png" alt="image-20240712173351039" style="zoom:50%;" />
 
 **概念**：
 
@@ -3069,7 +3069,7 @@ promise.addListener(future -> {
 
 ### 4. 单向调用（Oneway）
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240712173407045.png" alt="image-20240712173407045" style="zoom:50%;" />
+<img src="../images/image-20240712173407045.png" alt="image-20240712173407045" style="zoom:50%;" />
 
 **概念**：
 
@@ -4122,13 +4122,13 @@ output.writeObject(data);
 可以，因为dubbo服务消费者在第一次调用时，会将服务提供方地址缓存到本地，以后在调用则不会访问注册中心。
 当服务提供者地址发生变化时，注册中心会通知服务消费者。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240721225808975.png" alt="image-20240721225808975" style="zoom:50%;" />
+<img src="../images/image-20240721225808975.png" alt="image-20240721225808975" style="zoom:50%;" />
 
 
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240721225947410.png" alt="image-20240721225947410" style="zoom:50%;" />
+<img src="../images/image-20240721225947410.png" alt="image-20240721225947410" style="zoom:50%;" />
 
 Dubbo ZooKeeper 注册中心采用是事件通知与客户端拉取方式。**服务第一次订阅的时候将会拉取**
 

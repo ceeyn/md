@@ -290,7 +290,7 @@ Thalamo-皮质连接是G1的基础。
 突触发生(Sanderson和Weller 1990；Voigt et al.。
 事实上，**发生在出生前后的突触大爆炸，突触的数量增加到成年人的150%左右(Huttenlocher 1979；Bourgeis 2010；Petanjek等人2011)，主要是由感觉输入刺激的，代表了早期连接体形成的一个重要阶段**，突触过程高度依赖于出生后的神经元活动(Peng等人，2009)，复杂的社会、行为和认知过程下的神经过程可能不会在出生时成熟，这一理论与在G2中观察到的碎片化的高阶区域一致
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2022-11-22 20.37.23.png" alt="截屏2022-11-22 20.37.23" style="zoom:33%;" />
+<img src="../images/截屏2022-11-22 20.37.23.png" alt="截屏2022-11-22 20.37.23" style="zoom:33%;" />
 
 调查结果在各个参与者中的重现性。
 在每个新生儿中独立地重复多尺度连接组分析。

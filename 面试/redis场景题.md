@@ -322,7 +322,7 @@ Redis 的 `Set` 数据结构可以很好地处理类似点赞这样的关系问�
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240917193129071.png" alt="image-20240917193129071" style="zoom:50%;" />
+<img src="../images/image-20240917193129071.png" alt="image-20240917193129071" style="zoom:50%;" />
 
 
 

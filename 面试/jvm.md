@@ -796,7 +796,7 @@ public class PhantomReferenceLoggingExample {
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240909090047974.png" alt="image-20240909090047974" style="zoom:50%;" />
+<img src="../images/image-20240909090047974.png" alt="image-20240909090047974" style="zoom:50%;" />
 
 ### GC Roots 详细介绍
 

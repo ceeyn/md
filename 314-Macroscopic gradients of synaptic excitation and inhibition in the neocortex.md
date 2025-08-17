@@ -250,7 +250,7 @@ D|在小鼠皮质中，编码NMDA受体NR3A亚单位的GRIN3A表达为T1w/T2w的
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2022-11-08 16.02.29.png" alt="截屏2022-11-08 16.02.29" style="zoom: 50%;" />
+<img src="../images/截屏2022-11-08 16.02.29.png" alt="截屏2022-11-08 16.02.29" style="zoom: 50%;" />
 
 **图4|。精神分裂症的宏观梯度**
 

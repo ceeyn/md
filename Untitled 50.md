@@ -29,15 +29,15 @@ ABCD 协议是一套全面的身体、认知、社交、情感、环境、行为
 
 参考网站：https://abcdstudy.org/scientists/protocols/
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-01-22 15.40.11.png" alt="截屏2024-01-22 15.40.11" style="zoom:50%;" />
+<img src="../images/截屏2024-01-22 15.40.11.png" alt="截屏2024-01-22 15.40.11" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-01-22 15.48.35.png" alt="截屏2024-01-22 15.48.35" style="zoom:50%;" />
+<img src="../images/截屏2024-01-22 15.48.35.png" alt="截屏2024-01-22 15.48.35" style="zoom:50%;" />
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-01-22 15.49.16.png" alt="截屏2024-01-22 15.49.16" style="zoom:50%;" />
+<img src="../images/截屏2024-01-22 15.49.16.png" alt="截屏2024-01-22 15.49.16" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-01-22 15.49.30.png" alt="截屏2024-01-22 15.49.30" style="zoom:50%;" />
+<img src="../images/截屏2024-01-22 15.49.30.png" alt="截屏2024-01-22 15.49.30" style="zoom:50%;" />
 
 
 
@@ -73,7 +73,7 @@ PNC是费城儿童医院（CHOP）应用基因组学中心和宾夕法尼亚大�
 
 此外，还获取了一个B0场地图，用于畸变校正程序的应用，采用了双回波梯度回波序列，参数如下：**TR，1000毫秒；TE1，2.69毫秒；TE2，5.27毫秒；44个层面；层厚/间隔，4/0毫米；FOV，240毫米；有效体素分辨率，3.8×3.8×4毫米**。在扫描之前，为了使受试者适应磁共振成像环境，使用一台废弃的磁共振扫描仪和头线圈进行了模拟扫描会话，受试者在其中练习任务。模拟扫描过程中，还记录了每个扫描脉冲序列产生的梯度线圈噪声的声音录音。在这些会话期间，使用MoTrack运动跟踪系统（Psychology Software Tools）提供头部运动的反馈。运动反馈仅在模拟扫描会话期间提供。为了进一步减少运动，数据采集之前，在受试者的头部固定在头线圈上，使用一个海绵垫放在每只耳朵上，第三个垫子放在头部顶部。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-07-14 上午8.24.39.png" alt="截屏2023-07-14 上午8.24.39" style="zoom:50%;" />
+<img src="../images/截屏2023-07-14 上午8.24.39.png" alt="截屏2023-07-14 上午8.24.39" style="zoom:50%;" />
 
  **T1采 用 梯 度 回 波 序 列** ， 其 中 参 数 包 括 ： **TR=645ms,TE=30ms** ， 反 演 时 间 =1200ms;FOV=222*222mm2; 
 

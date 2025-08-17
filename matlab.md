@@ -14,4 +14,4 @@
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2022-10-05 17.14.39.png" alt="截屏2022-10-05 17.14.39" style="zoom:50%;" />
+<img src="../images/截屏2022-10-05 17.14.39.png" alt="截屏2022-10-05 17.14.39" style="zoom:50%;" />

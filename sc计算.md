@@ -6,15 +6,15 @@
 	# --py_env需要conda配置环境
 		
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-06-20 下午5.57.33.png" alt="截屏2023-06-20 下午5.57.33" style="zoom:50%;" />
+<img src="../images/截屏2023-06-20 下午5.57.33.png" alt="截屏2023-06-20 下午5.57.33" style="zoom:50%;" />
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-06-20 下午5.56.51.png" alt="截屏2023-06-20 下午5.56.51" style="zoom:50%;" />
+<img src="../images/截屏2023-06-20 下午5.56.51.png" alt="截屏2023-06-20 下午5.56.51" style="zoom:50%;" />
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-06-20 下午5.57.21.png" alt="截屏2023-06-20 下午5.57.21" style="zoom:50%;" />
+<img src="../images/截屏2023-06-20 下午5.57.21.png" alt="截屏2023-06-20 下午5.57.21" style="zoom:50%;" />
 
 #### -. --py_env 先安装conda 再配置conda的env
 

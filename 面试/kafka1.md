@@ -1395,7 +1395,7 @@ Kafka 是有主题概念的，而每个主题又进一步划分成若干个分�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729153123437.png" alt="image-20240729153123437" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921134810816.png" alt="image-20240921134810816" style="zoom:50%;" />
+<img src="../images/image-20240921134810816.png" alt="image-20240921134810816" style="zoom:50%;" />
 
 ### 1.4.1.1. **副本角色**
 
@@ -1447,7 +1447,7 @@ Kafka 判断 Follower 是否与 Leader 同步的标准，不是看相差的消�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729154350432.png" alt="image-20240729154350432" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921134949329.png" alt="image-20240921134949329" style="zoom:50%;" />
+<img src="../images/image-20240921134949329.png" alt="image-20240921134949329" style="zoom:50%;" />
 
 从这张图中，我们可以发现，多个客户端**会发送请求给到 Reactor。Reactor 有个请求分发线程 Dispatcher，也就是图中的 Acceptor，它会将不同的请求下发到多个工作线程中处理**。在这个架构中，Acceptor 线程只是用于请求分发，不涉及具体的逻辑处理，非常得轻量级，因此有很高的吞吐量表现。而这些工作线程可以根据实际业务处理需要任意增减，从而动态调节系统负载能力。
 
@@ -1455,7 +1455,7 @@ Kafka 判断 Follower 是否与 Leader 同步的标准，不是看相差的消�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729154419211.png" alt="image-20240729154419211" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921135017043.png" alt="image-20240921135017043" style="zoom:50%;" />
+<img src="../images/image-20240921135017043.png" alt="image-20240921135017043" style="zoom:50%;" />
 
 Kafka 的 Broker 端有个 SocketServer 组件，**类似于 Reactor 模式中的 Dispatcher，它也有对应的 Acceptor 线程和一个工作线程池，只不过在 Kafka 中，这个工作线程池有个专属的名字，叫网络线程池**。Kafka 提供了 Broker 端参数 num.network.threads，用于调整该网络线程池的线程数。其默认值是 3，表示**每台 Broker 启动时会创建 3 个网络线程，专门处理客户端发送的请求**。
 
@@ -1463,7 +1463,7 @@ Acceptor 线程采用轮询的方式将入站请求公平地发到所有网络�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729154835058.png" alt="image-20240729154835058" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921135144232.png" alt="image-20240921135144232" style="zoom:50%;" />
+<img src="../images/image-20240921135144232.png" alt="image-20240921135144232" style="zoom:50%;" />
 
 当网络线程拿到请求后，它不是自己处理，而是将请求放入到一个**共享请求队列中**。**Broker 端还有个 IO 线程池**，负责从该队列中取出请求，执行真正的处理。**如果是 PRODUCE 生产请求，则将消息写入到底层的磁盘日志中；如果是 FETCH 请求，则从磁盘或页缓存中读取消息**。IO 线程池处中的线程才是执行请求逻辑的线程。Broker 端参数 num.io.threads 控制了这个线程池中的线程数。目前该参数默认值是 8，表示每台 Broker 启动后自动创建 8 个 IO 线程处理请求。你可以根据实际硬件条件设置此线程池的个数。
 
@@ -1533,7 +1533,7 @@ Kafka 集群中的每个分区都有多个副本，其中一个是 Leader 副本
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729160933082.png" alt="image-20240729160933082" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921140645900.png" alt="image-20240921140645900" style="zoom:50%;" />
+<img src="../images/image-20240921140645900.png" alt="image-20240921140645900" style="zoom:50%;" />
 
 那么控制器是如何被选出来的呢？Broker在启动时，会尝试去Zookeeper中创建/controller节点。Kafka当前选举控制器的规则是：第一个成功创建/controller节点的Broker会被指定为控制器。
 
@@ -1563,7 +1563,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729161135159.png" alt="image-20240729161135159" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921140714575.png" alt="image-20240921140714575" style="zoom:50%;" />
+<img src="../images/image-20240921140714575.png" alt="image-20240921140714575" style="zoom:50%;" />
 
 控制器中保存的这些数据在Zookeeper中也保存了一份。每当控制器初始化时，它都会从Zookeeper上读取对应的元数据并填充到自己的缓存中。这里面比较重要的数据有：
 
@@ -1579,7 +1579,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729162700363.png" alt="image-20240729162700363" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921140751762.png" alt="image-20240921140751762" style="zoom:50%;" />
+<img src="../images/image-20240921140751762.png" alt="image-20240921140751762" style="zoom:50%;" />
 
 最开始时，Broker 0 是控制器。当 Broker 0 宕机后，ZooKeeper 通过 Watch 机制感知到并删除了 /controller 临时节点。之后，所有存活的 Broker 开始竞选新的控制器身份。Broker 3 最终赢得了选举，成功地在 ZooKeeper 上重建了 /controller 节点。之后，Broker 3 会从 ZooKeeper 中读取集群元数据信息，并初始化到自己的缓存中。至此，控制器的 Failover 完成，可以行使正常的工作职责了。
 
@@ -1593,7 +1593,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729163404113.png" alt="image-20240729163404113" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921140933329.png" alt="image-20240921140933329" style="zoom:50%;" />
+<img src="../images/image-20240921140933329.png" alt="image-20240921140933329" style="zoom:50%;" />
 
 1）单线程+队列的实现方式：**社区引入了【一个事件处理线程，统一处理各种控制器事件】，然后控制器将原来执行的操作全部建模成一个个独立的事件，发送到专属的事件队列中，供此线程消费**。
 2） 单线程不代表之前提到的所有线程都被干掉了，控制器只是把缓存状态变更方面的工作委托给了这个线程而已。
@@ -1728,7 +1728,7 @@ Kafka 中存在大量的延时操作，比如**延时生产、延时拉取和延
 
 Kafka中使用的请求被延时处理的机制是分层时间轮算法。想想我们生活中的手表。手表由时针、分针和秒针组成，它们各自有独立的刻度，但又彼此相关：秒针转动一圈，分针会向前推进一格；分针转动一圈，时针会向前推进一格。这就是典型的分层时间轮。和手表不太一样的是，Kafka 自己有专门的术语。在 Kafka 中，手表中的“一格”叫“一个桶（Bucket）”，而“推进”对应于 Kafka 中的“滴答”，也就是 tick。除此之外，每个 Bucket 下也不是白板一块，**它实际上是一个双向循环链表（Doubly Linked Cyclic List），里面保存了一组延时请求。由于是双向链表结构，能够利用 next 和 prev 两个指针快速地定位元素，**因此，在 Bucket 下插入和删除一个元素的时间复杂度是 O(1)。当然，双向链表要求同时保存两个指针数据，在节省时间的同时消耗了更多的空间。在算法领域，这是典型的用空间去换时间的优化思想。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921141439832.png" alt="image-20240921141439832" style="zoom:50%;" />
+<img src="../images/image-20240921141439832.png" alt="image-20240921141439832" style="zoom:50%;" />
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729164145351.png" alt="image-20240729164145351" style="zoom:50%;" />
 
@@ -1922,7 +1922,7 @@ Kafka 中会有一个线程来获取 DelayQueue 中到期的任务列表，这�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729170929474.png" alt="image-20240729170929474" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921142020382.png" alt="image-20240921142020382" style="zoom:50%;" />
+<img src="../images/image-20240921142020382.png" alt="image-20240921142020382" style="zoom:50%;" />
 
 消息系统内的消息从生产者保存到服务端，消费者再从服务端读取出来，数据的传输效率决定了生产者和消费者的性能。生产者如果每发送一条消息都直接通过网络发送到服务端，势必会造成过多的网络请求。如果我们能够将多条消息按照分区进行分组，并采用批量的方式一次发送一个消息集，并且对消息集进行压缩，就可以减少网络传输的带宽，进一步提高数据的传输效率。
 
@@ -1940,7 +1940,7 @@ Kafka 中会有一个线程来获取 DelayQueue 中到期的任务列表，这�
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240729171153206.png" alt="image-20240729171153206" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921142036233.png" alt="image-20240921142036233" style="zoom:50%;" />
+<img src="../images/image-20240921142036233.png" alt="image-20240921142036233" style="zoom:50%;" />
 
 Kafka 使用零拷贝技术（zero-copy）来优化数据传输效率，特别是在高吞吐量场景下。零拷贝技术减少了 CPU 负载和内存拷贝次数，从而大幅提高了系统性能。下面是对 Kafka 中零拷贝技术应用的详细解释。
 
@@ -2643,7 +2643,7 @@ https://blog.csdn.net/sinat_27143551/article/details/103033566
 
 **Consumer 端丢失数据主要体现在 Consumer 端要消费的消息不见了。Consumer 有个“位移”的概念，表示的是这个 Consumer 当前消费到的 Topic 分区的位置。**下面这张图来自于官网，它清晰地展示了 Consumer 端的位移数据。比如对于 Consumer A 而言，它当前的位移值就是 9；Consumer B 的位移值是 11。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921144315988.png" alt="image-20240921144315988" style="zoom:50%;" />
+<img src="../images/image-20240921144315988.png" alt="image-20240921144315988" style="zoom:50%;" />
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814112114106.png" alt="image-20240814112114106" style="zoom:50%;" />
 
@@ -2927,7 +2927,7 @@ https://blog.csdn.net/pangkai59/article/details/116561453
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/截屏2024-08-14 15.09.17.png" alt="截屏2024-08-14 15.09.17" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921152922423.png" alt="image-20240921152922423" style="zoom:50%;" />
+<img src="../images/image-20240921152922423.png" alt="image-20240921152922423" style="zoom:50%;" />
 
 假设这是某个分区 Leader 副本的高水位图。首先，**请你注意图中的“已提交消息”和“未提交消息”。在分区高水位以下的消息被认为是已提交消息，反之就是未提交消息。消费者只能消费已提交消息**，即图中位移小于 8 的所有消息。注意，这里我们不讨论 Kafka 事务，因为事务机制会影响消费者所能看到的消息的范围，它不只是简单依赖高水位来判断。它依靠一个名为 LSO（Log Stable Offset）的位移值来判断事务型消费者的可见性。
 
@@ -2941,7 +2941,7 @@ https://blog.csdn.net/pangkai59/article/details/116561453
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814150937485.png" alt="image-20240814150937485" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921154556591.png" alt="image-20240921154556591" style="zoom:50%;" />
+<img src="../images/image-20240921154556591.png" alt="image-20240921154556591" style="zoom:50%;" />
 
 在这张图中，我们可以看到，Broker 0 上保存了某分区的 Leader 副本和所有 Follower 副本的 LEO 值，而 Broker 1 上仅仅保存了该分区的某个 Follower 副本。Kafka 把 Broker 0 上保存的这些 Follower 副本又称为远程副本（Remote Replica）。Kafka 副本机制在运行过程中，会更新 Broker 1 上 Follower 副本的高水位和 LEO 值，同时也会更新 Broker 0 上 Leader 副本的高水位和 LEO 以及所有远程副本的 LEO，但它不会更新远程副本的高水位值，也就是我在图中标记为灰色的部分。为什么要在 Broker 0 上保存这些远程副本呢？其实，它们的主要作用是，帮助 Leader 副本确定其高水位，也就是分区高水位。
 
@@ -2949,7 +2949,7 @@ https://blog.csdn.net/pangkai59/article/details/116561453
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814150955583.png" alt="image-20240814150955583" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921154636470.png" alt="image-20240921154636470" style="zoom:50%;" />
+<img src="../images/image-20240921154636470.png" alt="image-20240921154636470" style="zoom:50%;" />
 
 下面，我们分别从 Leader 副本和 Follower 副本两个维度，来总结一下高水位和 LEO 的更新机制。
 
@@ -3005,13 +3005,13 @@ iii. 更新高水位为 min(currentHW, currentLEO)。
 
 此时，Leader 副本成功将消息写入了本地磁盘，故 LEO 值被更新为 1。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921154810475.png" alt="image-20240921154810475" style="zoom:50%;" />
+<img src="../images/image-20240921154810475.png" alt="image-20240921154810475" style="zoom:50%;" />
 
 3. Follower 再次尝试从 Leader 拉取消息。和之前不同的是，这次有消息可以拉取了，因此状态进一步变更为：
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814151053070.png" alt="image-20240814151053070" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921154844395.png" alt="image-20240921154844395" style="zoom:50%;" />
+<img src="../images/image-20240921154844395.png" alt="image-20240921154844395" style="zoom:50%;" />
 
 这时，Follower 副本也成功地更新 LEO 为 1。
 
@@ -3019,7 +3019,7 @@ iii. 更新高水位为 min(currentHW, currentLEO)。
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814151128827.png" alt="image-20240814151128827" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921154918118.png" alt="image-20240921154918118" style="zoom:50%;" />
+<img src="../images/image-20240921154918118.png" alt="image-20240921154918118" style="zoom:50%;" />
 
 在新一轮的拉取请求中，由于位移值是 0 的消息已经拉取成功，因此 Follower 副本这次请求拉取的是位移值 =1 的消息。Leader 副本接收到此请求后，更新远程副本 LEO 为 1，然后更新 Leader 高水位为 1。做完这些之后，它会将当前已更新过的高水位值 1 发送给 Follower 副本。Follower 副本接收到以后，也将自己的高水位值更新成 1。至此，一次完整的消息同步周期就结束了。事实上，Kafka 就是利用这样的机制，实现了 Leader 和 Follower 副本之间的同步。
 
@@ -3043,7 +3043,7 @@ iii. 更新高水位为 min(currentHW, currentLEO)。
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814151153049.png" alt="image-20240814151153049" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921155018353.png" alt="image-20240921155018353" style="zoom:50%;" />
+<img src="../images/image-20240921155018353.png" alt="image-20240921155018353" style="zoom:50%;" />
 
 开始时，副本 A 和副本 B 都处于正常状态，A 是 Leader 副本。某个使用了默认 acks 设置的生产者程序向 A 发送了两条消息，A 全部写入成功，此时 Kafka 会通知生产者说两条消息全部发送成功。现在我们假设 Leader 和 Follower 都写入了这两条消息，而且 Leader 副本的高水位也已经更新了，但 Follower 副本高水位还未更新。这是可能出现的，Follower 端高水位的更新与 Leader 端有时间错配。倘若此时副本 B 所在的 Broker 宕机，**当它重启回来后，副本 B 会执行日志截断操作，将 LEO 值调整为之前的高水位值【因为还没有进行HW提交，】，也就是 1。这就是说，位移值为 1 的那条消息被副本 B 从磁盘中删除，此时副本 B 的底层磁盘文件中只保存有 1 条消息，即位移值为 0 的那条消息。**当执行完截断操作后，副本 B 开始从 A 拉取消息，执行正常的消息同步。如果就在这个节骨眼上，副本 A 所在的 Broker 宕机了，那么 Kafka 就别无选择，只能让副本 B 成为新的 Leader，此时，当 A 回来后，需要执行相同的日志截断操作，即将高水位调整为与 B 相同的值，也就是 1。这样操作之后，位移值为 1 的那条消息就从这两个副本中被永远地抹掉了。这就是这张图要展示的数据丢失场景。
 
@@ -3053,7 +3053,7 @@ iii. 更新高水位为 min(currentHW, currentLEO)。
 
 <img src="/Users/giffinhao/Library/Application Support/typora-user-images/image-20240814151215263.png" alt="image-20240814151215263" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240921155136627.png" alt="image-20240921155136627" style="zoom:50%;" />
+<img src="../images/image-20240921155136627.png" alt="image-20240921155136627" style="zoom:50%;" />
 
 场景和之前大致是类似的，只不过引用 Leader Epoch 机制后，Follower 副本 B 重启回来后，需要向 A 发送一个特殊的请求去获取 Leader 的 LEO 值。在这个例子中，该值为 2。**当获知到 Leader LEO=2 后，B 发现该 LEO 值不比它自己的 LEO 值小，而且缓存中也没有保存任何起始位移值 > 2 的 Epoch 条目，因此 B 无需执行任何日志截断操作。这是对高水位机制的一个明显改进，即副本是否执行日志截断不再依赖于高水位进行判断。现在，副本 A 宕机了，B 成为 Leader**。同样地，当 A 重启回来后，执行与 B 相同的逻辑判断，发现也不用执行日志截断，至此位移值为 1 的那条消息在两个副本中均得到保留。**后面当生产者程序向 B 写入新消息时，副本 B 所在的 Broker 缓存中，会生成新的 Leader Epoch 条目：[Epoch=1, Offset=2]**。之后，副本 B 会使用这个条目帮助判断后续是否执行日志截断操作。这样，通过 Leader Epoch 机制，Kafka 完美地规避了这种数据丢失场景。
 

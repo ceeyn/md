@@ -19,7 +19,7 @@
 粒度不同：Filter只能在servlet的前后起作用，而拦截器能在方法前后异常前后执行，更加灵活，粒度更小，spring框架程序优先使用拦截器。
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240923162833456.png" alt="image-20240923162833456" style="zoom:50%;" />
+<img src="../images/image-20240923162833456.png" alt="image-20240923162833456" style="zoom:50%;" />
 
 
 

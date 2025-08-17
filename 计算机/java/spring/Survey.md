@@ -160,7 +160,7 @@ UPDATE user SET Password = PASSWORD(``'root'``) WHERE user = ``'root'``;
 
 jar:    **ClassPath对应着Jar包的根目录，对应着编译后的target的classes目录**
 
-war:    **classpath : 指的是打成war包以后的web-info 文件夹下面的classes 文件夹里面的路径**<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-02-23 下午12.47.10.png" alt="截屏2023-02-23 下午12.47.10" style="zoom:50%;" />
+war:    **classpath : 指的是打成war包以后的web-info 文件夹下面的classes 文件夹里面的路径**<img src="../images/截屏2023-02-23 下午12.47.10.png" alt="截屏2023-02-23 下午12.47.10" style="zoom:50%;" />
 
 ### Java项目中加载资源文件通常有两种方式:
 
@@ -168,9 +168,9 @@ war:    **classpath : 指的是打成war包以后的web-info 文件夹下面的c
 
 **2、Class.getClassLoader().getResource(String path)**
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-02-23 下午12.49.23.png" alt="截屏2023-02-23 下午12.49.23" style="zoom:50%;" />
+<img src="../images/截屏2023-02-23 下午12.49.23.png" alt="截屏2023-02-23 下午12.49.23" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-02-23 下午12.49.46.png" alt="截屏2023-02-23 下午12.49.46" style="zoom:50%;" />
+<img src="../images/截屏2023-02-23 下午12.49.46.png" alt="截屏2023-02-23 下午12.49.46" style="zoom:50%;" />
 
 ###  批量文件上传不能用swagger
 

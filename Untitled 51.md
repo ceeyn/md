@@ -1,22 +1,22 @@
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-27 20.37.48.png" alt="截屏2024-03-27 20.37.48" style="zoom:50%;" />
+<img src="../images/截屏2024-03-27 20.37.48.png" alt="截屏2024-03-27 20.37.48" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-27 20.38.06.png" alt="截屏2024-03-27 20.38.06" style="zoom:50%;" />
+<img src="../images/截屏2024-03-27 20.38.06.png" alt="截屏2024-03-27 20.38.06" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-27 20.51.17.png" alt="截屏2024-03-27 20.51.17" style="zoom:50%;" />
+<img src="../images/截屏2024-03-27 20.51.17.png" alt="截屏2024-03-27 20.51.17" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-27 20.51.32.png" alt="截屏2024-03-27 20.51.32" style="zoom:50%;" />
+<img src="../images/截屏2024-03-27 20.51.32.png" alt="截屏2024-03-27 20.51.32" style="zoom:50%;" />
 
 ![截屏2024-03-27 21.17.19](/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-27 21.17.19.png)
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-28 13.05.49.png" alt="截屏2024-03-28 13.05.49" style="zoom:50%;" />
+<img src="../images/截屏2024-03-28 13.05.49.png" alt="截屏2024-03-28 13.05.49" style="zoom:50%;" />
 
 图2描述了成人生命周期中功能亚网络中的连接组梯度老化过程。(A)展示了各个年龄阶段功能网络的主要梯度得分。(B)展示了各个年龄阶段功能网络的次级梯度得分。(C)以蓝色的点和线代表功能网络中主要梯度得分的立方和线性老化轨迹，以橙色的点和线代表次级梯度得分的老化轨迹。这里的功能网络是指Yeo 的7个网络。所有的结果都经过了FDR校正，q值小于0.05。VIS代表视觉网络；SMN代表躯体运动网络；DAN代表背侧注意网络；VAN代表腹侧注意网络；LIM代表边缘网络；FPN代表前额-顶叶网络；DMN代表默认模式网络。
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-28 13.12.37.png" alt="截屏2024-03-28 13.12.37" style="zoom:50%;" />
+<img src="../images/截屏2024-03-28 13.12.37.png" alt="截屏2024-03-28 13.12.37" style="zoom:50%;" />
 
 图3描绘了主要和次级梯度中的区域梯度得分与年龄相关的变化。(A)展示了几个区域的主要梯度得分与年龄有关的增加，包括辅助运动区（SMA）、中央前回和中央后回、上顶叶小叶（SPL）和下顶叶小叶（IPL）、上枕叶回（SOG）和下枕叶回（IOG）；而主要梯度得分与年龄有关的减少区域包括内侧前额皮层（mPFC）、前（ACC）和后扣带皮层（PCC）、中央颞叶回（MTG）以及上额叶回（SFG）。(B)展示了次级梯度得分与年龄有关增加的区域，包括颞下回、舌回、SOG、中央枕叶回（MOG）和楔前部；与年龄有关减少的区域包括中央后回、上颞回（STG）、岛叶、内侧上额回（mSFG）、内侧眶上额回（mOFG）、ACC和中扣带皮层（MCC）。更高/更低的t值分别用暖色/冷色表示。所有的结果都经过了FDR校正，q值小于0.05。
 
@@ -30,7 +30,7 @@
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2024-03-28 14.35.30.png" alt="截屏2024-03-28 14.35.30" style="zoom:50%;" />
+<img src="../images/截屏2024-03-28 14.35.30.png" alt="截屏2024-03-28 14.35.30" style="zoom:50%;" />
 
 我们检查了地形属性和全局梯度度量之间的关联，以确定连接组梯度是否捕获功能网络属性。结果表明，主梯度和次梯度的全局度量与聚类系数、特征路径长度、全局效率和小世界属性显着相关（[表2](https://www.frontiersin.org/articles/10.3389/fnagi.2024.1331574/full#tab2)和[补充图S3](https://www.frontiersin.org/articles/10.3389/fnagi.2024.1331574/full#SM1)）。次级梯度指标和小世界属性之间没有发现显着的相关性。共性分析表明，全局梯度指标的独特贡献大于地形属性或这两者对正常衰老的共同贡献
 

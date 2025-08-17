@@ -43,7 +43,7 @@
      DefaultSingletonBeanRegistry 中存放所有单例对象
      ```
    
-   <img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20240721094541840.png" alt="image-20240721094541840" style="zoom:50%;" />
+   <img src="../images/image-20240721094541840.png" alt="image-20240721094541840" style="zoom:50%;" />
    
    
    

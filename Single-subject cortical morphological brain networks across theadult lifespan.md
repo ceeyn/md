@@ -71,7 +71,7 @@ JSD是Kullback-Leibler发散**(KLD)的变体**，是一种衡量
 **得到的每个概率密度估计被进一步转换为概率分布函数(PDF)。**
 **对于两个区域PDF P和Q，JSD计算如下**
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午7.46.04.png" alt="截屏2023-09-26 下午7.46.04" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午7.46.04.png" alt="截屏2023-09-26 下午7.46.04" style="zoom:50%;" />
 
 其中是**概率密度估计中的采样点个数**。
 根据我们之前的研究(Wang等人，2016)，**无论ROI包括多少顶点，每个ROI的n值都设置为28**。
@@ -108,19 +108,19 @@ JSD是Kullback-Leibler发散**(KLD)的变体**，是一种衡量
 **一般线性模型被用来探索形态脑网络中与年龄相关的变化**。
 具体地说，对于每种类型的形态脑网络，**使用了三个模型来分别检查每对ROI、每个全局网络度量、每个ROI的每个节点中心性度量、跨组级中枢的每个节点中心性度量以及跨组级非中枢的每个节点中心性度量的平均值之间的线性、二次和三次年龄相关的形态相似性变化**
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午7.52.53.png" alt="截屏2023-09-26 下午7.52.53" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午7.52.53.png" alt="截屏2023-09-26 下午7.52.53" style="zoom:50%;" />
 
-为了确定最佳拟合模型，使用了Akaike的信息准则(AIC)(Akaike，1974；Hurvich&Tsai，1989)，其计算公式为<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午7.53.13.png" alt="截屏2023-09-26 下午7.53.13" style="zoom:50%;" />
+为了确定最佳拟合模型，使用了Akaike的信息准则(AIC)(Akaike，1974；Hurvich&Tsai，1989)，其计算公式为<img src="../images/截屏2023-09-26 下午7.53.13.png" alt="截屏2023-09-26 下午7.53.13" style="zoom:50%;" />
 
 其中是模型中估计参数的个数，^是模型的似然函数的最大值。
 **较小的AIC值意味着在拟合优度和估计参数数量之间有更好的权衡**。
 如果确定为二次模型，则峰值年龄点计算如下
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午8.10.48.png" alt="截屏2023-09-26 下午8.10.48" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午8.10.48.png" alt="截屏2023-09-26 下午8.10.48" style="zoom:50%;" />
 
 如果确定了一个三次模型，则年龄的拐点被计算为
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午8.15.10.png" alt="截屏2023-09-26 下午8.15.10" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午8.15.10.png" alt="截屏2023-09-26 下午8.15.10" style="zoom:50%;" />
 
 对于每种类型的形态脑网络，使用错误发现率(FDR)过程来校正区域间形态相似性(跨连接)、全局网络组织(跨测量)和局部网络组织(跨区域和节点中心性度量)的多重比较，并使用上述过程来检查与年龄相关的局部形态变化(即每个形态特征的区域平均值
 
@@ -161,7 +161,7 @@ JSD是Kullback-Leibler发散**(KLD)的变体**，是一种衡量
 3.2|单个受试者形态**脑网络的节点中心性测量的年龄相关变化对于所有类型的形态脑网络，特别是SD和CT网络，观察到显著的年龄相关变化**(p<0.05，FDR校正；图1)。
 在一般情况下，**这些变化主要以线性变化为特征，并累及额区和颞区，与形态脑网络的类型无关**
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午8.48.03.png" alt="截屏2023-09-26 下午8.48.03" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午8.48.03.png" alt="截屏2023-09-26 下午8.48.03" style="zoom:50%;" />
 
 图2全球网络指标与年龄相关的变化。仅在CT网络中观察到与年龄相关的显著变化。阴影表示模型适应度的95%可信区间。
 在立方模型中，黑色恒星表示静止的年龄点。CT，皮质厚度。
@@ -232,7 +232,7 @@ S9显示了局部形态随年龄的显著变化(p<0.05，FDR校正)。
 3.6.1|FD在57个区域的FD上观察到显著的年龄相关性变化(线性：43，75.4%；二次：14，24.6%)(额叶：23，40.4%；颞叶：9，15.8%)。
 
 3.6.2|地理信息系统显著的年龄相关性变化(线性：25，61.0%；二次：14，34.1%；
-41个区域(额叶15个，占36.6%；颞叶：8个，占19.5%)，2个(4.9%)位于胃肠道。<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午9.57.04.png" alt="截屏2023-09-26 下午9.57.04" style="zoom:50%;" />
+41个区域(额叶15个，占36.6%；颞叶：8个，占19.5%)，2个(4.9%)位于胃肠道。<img src="../images/截屏2023-09-26 下午9.57.04.png" alt="截屏2023-09-26 下午9.57.04" style="zoom:50%;" />
 
 图4Hub概率图。
 为每种类型的单主体形态脑网络的**每个节点中心性测量计算中心概率图，作为所有参与者(前三排)作为中心的区域的频率**。
@@ -251,13 +251,13 @@ CT：11，55%)；和
 
 外侧沟前段水平支(r=.140，p<.001；图11，右)。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.00.53.png" alt="截屏2023-09-26 下午10.00.53" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午10.00.53.png" alt="截屏2023-09-26 下午10.00.53" style="zoom:50%;" />
 
 图5**不同类型**的单主体形态脑网络的**不同节点**中心性度量之间中枢概率图的**空间相似性**。**ki，结节程度；Ei，节点效率；bi，节点中介度**；CT，皮质厚度；Fd，分维；Gi，回旋指数；SD，沟深度
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.02.45.png" alt="截屏2023-09-26 下午10.02.45" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午10.02.45.png" alt="截屏2023-09-26 下午10.02.45" style="zoom:50%;" />
 
 图6**枢纽和非枢纽的年龄变化**。
 彩色散点图显示了与年龄相关的显著变化。
@@ -266,12 +266,12 @@ CT，皮质厚度；FD，分维；GI，回缩指数；SD，脑沟深度
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.04.11.png" alt="截屏2023-09-26 下午10.04.11" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午10.04.11.png" alt="截屏2023-09-26 下午10.04.11" style="zoom:50%;" />
 
 图7不同年龄段的平均形态相似矩阵的空间相似性。
 CT，皮质厚度；FD，分维；GI，回缩指数；SD，沟深
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.04.23.png" alt="截屏2023-09-26 下午10.04.23" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午10.04.23.png" alt="截屏2023-09-26 下午10.04.23" style="zoom:50%;" />
 
 图8显示**模块内和模块之间与年龄相关的变化的形态连接的数量**。
 CT，皮质厚度；DAN，背侧注意网络；DMN，默认模式网络；FD，分维；FPN，额顶网络；GI，回旋指数；LN，边缘网络；SD，沟深；SMN，躯体运动网络；VAN，腹侧注意网络；VN，视觉网络
@@ -280,7 +280,7 @@ CT，皮质厚度；DAN，背侧注意网络；DMN，默认模式网络；FD，�
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.05.12.png" alt="截屏2023-09-26 下午10.05.12" style="zoom: 25%;" />
+<img src="../images/截屏2023-09-26 下午10.05.12.png" alt="截屏2023-09-26 下午10.05.12" style="zoom: 25%;" />
 
 图9区域间形态相似性随距离和年龄相关的变化。
 对于所有类型的单主体形态脑网络，**显示出显著年龄相关变化的形态相似之处主要涉及与短距离解剖距离的联系**。
@@ -294,9 +294,9 @@ CT，皮质厚度；FD，分维；GI，回缩指数；SD，脑沟深度
 对于FD网络，LN与VAN、LN与FPN、VAN与FPN之间的联系，以及GI网络中LN与VAN之间的联系，都可以感受到区域间形态相似性的年龄相关性线性变化。
 CT，皮质厚度；FD，分维；GI，回旋指数；SD，
 
-沟深<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.06.27.png" alt="截屏2023-09-26 下午10.06.27" style="zoom:50%;" />
+沟深<img src="../images/截屏2023-09-26 下午10.06.27.png" alt="截屏2023-09-26 下午10.06.27" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-09-26 下午10.07.53.png" alt="截屏2023-09-26 下午10.07.53" style="zoom:50%;" />
+<img src="../images/截屏2023-09-26 下午10.07.53.png" alt="截屏2023-09-26 下午10.07.53" style="zoom:50%;" />
 
 图11**卡特尔评分与区域间形态相似性和局部形态的关系**。
 在控制年龄效应前后，个体Cattell评分与左额上回与中央前沟上部的区域间相似性、**左侧前横回的皮质厚度和右侧外侧沟前段水平支的沟深度呈正相关**。

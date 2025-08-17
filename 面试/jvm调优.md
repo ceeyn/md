@@ -1,6 +1,6 @@
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20241029161426309.png" alt="image-20241029161426309" style="zoom:50%;" />
+<img src="../images/image-20241029161426309.png" alt="image-20241029161426309" style="zoom:50%;" />
 
 
 

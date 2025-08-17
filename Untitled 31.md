@@ -26,4 +26,4 @@
 
 
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-04-18 下午4.45.22.png" alt="截屏2023-04-18 下午4.45.22" style="zoom:50%;" />
+<img src="../images/截屏2023-04-18 下午4.45.22.png" alt="截屏2023-04-18 下午4.45.22" style="zoom:50%;" />

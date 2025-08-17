@@ -4,11 +4,11 @@
 
 列代表
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-05-15 下午1.14.34.png" alt="截屏2023-05-15 下午1.14.34" style="zoom:50%;" />
+<img src="../images/截屏2023-05-15 下午1.14.34.png" alt="截屏2023-05-15 下午1.14.34" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-05-15 下午1.14.56.png" alt="截屏2023-05-15 下午1.14.56" style="zoom:50%;" />
+<img src="../images/截屏2023-05-15 下午1.14.56.png" alt="截屏2023-05-15 下午1.14.56" style="zoom:50%;" />
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-05-15 下午1.15.26.png" alt="截屏2023-05-15 下午1.15.26" style="zoom:50%;" />
+<img src="../images/截屏2023-05-15 下午1.15.26.png" alt="截屏2023-05-15 下午1.15.26" style="zoom:50%;" />
 
 
 
@@ -16,7 +16,7 @@
 
 448 * 448 每列就是相应一个局部节点和其他节点之间的欧几里得距离
 
- <img src="/Users/haozhipeng/Library/Application Support/typora-user-images/截屏2023-05-15 下午11.18.22.png" alt="截屏2023-05-15 下午11.18.22" style="zoom:50%;" />
+ <img src="../images/截屏2023-05-15 下午11.18.22.png" alt="截屏2023-05-15 下午11.18.22" style="zoom:50%;" />
 
 这种网络只在群体层面上进行了探索，不能用来量化每个患者的缺陷以进行诊断为了表示个体的皮质结构之间的协变模式，两种类型的个体级形态学网络，其关注于通过由一定数量的体素组成的小斑块之间的配对相关性来捕捉细微的皮质变化，或者使用模板来测量区域特征之间的差异一个大脑区域和其他大脑区域的多个形态特征之间的跨区域关系可能提供关键的鉴别信息，但这些关系尚未从网络的角度进行探索。
 

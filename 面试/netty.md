@@ -51,7 +51,7 @@ NioEventLoop中维护了一个线程和任务队列，支持异步提交执行�
 
 两种任务的执行时间比由变量ioRatio控制，默认为50，则表示允许非IO任务执行的时间与IO任务的执行时间相等。
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20241202085837779.png" alt="image-20241202085837779" style="zoom:50%;" />
+<img src="../images/image-20241202085837779.png" alt="image-20241202085837779" style="zoom:50%;" />
 
 
 
@@ -139,7 +139,7 @@ https://www.infoq.cn/news/netty-threading-model
 
 图中的defaultEventLoop相当于主从多线程模型的工作线程池
 
-<img src="/Users/haozhipeng/Library/Application Support/typora-user-images/image-20241201223949877.png" alt="image-20241201223949877" style="zoom: 33%;" />
+<img src="../images/image-20241201223949877.png" alt="image-20241201223949877" style="zoom: 33%;" />
 
 
 
